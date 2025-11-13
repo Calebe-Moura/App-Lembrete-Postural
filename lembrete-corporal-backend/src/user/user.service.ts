@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dtos/createUser.dto';
 import { UserEntity } from './entity/user.entity';
 import { hash } from 'bcrypt';
@@ -15,17 +15,24 @@ export class UserService {
   
 
   async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
-    const saltOrRounds = 10;
-    const passwordHashed = await hash(createUserDto.password, saltOrRounds);
+    const passwordHashed = await hash(createUserDto.password, 10);
+    
+    if (createUserDto.isFisioterapeuta && !createUserDto.crefito){
+            throw new BadRequestException('Fisioterapeuta deve ter um CREFITO');
+    }
+
 
     return this.userRepository.save({
       ...createUserDto,
-      typeUser: 1,
       password: passwordHashed,
     });
   }
 
   async getAllUsers(): Promise<UserEntity[]> {
     return this.userRepository.find();
+  }
+
+  async getOneUser({id:id}): Promise<UserEntity[]> {
+    return this.userRepository.find(id);
   }
 }
