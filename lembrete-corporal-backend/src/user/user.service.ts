@@ -1,38 +1,35 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dtos/createUser.dto';
-import { UserEntity } from './entity/user.entity';
+import { Injectable } from '@nestjs/common';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './interface/user.interface';
 import { hash } from 'bcrypt';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
+  async createUser(createUserDto: CreateUserDto): Promise<User> {
+   
+    const passwordHashed = await hash(createUserDto.password,10)
 
-  constructor(
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>
-  ){};
-  
-
-  async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
-    const passwordHashed = await hash(createUserDto.password, 10);
-    
-    if (createUserDto.isFisioterapeuta && !createUserDto.crefito){
-            throw new BadRequestException('Fisioterapeuta deve ter um CREFITO');
-    }
-
-
-    return this.userRepository.save({
+    return ({
       ...createUserDto,
-      password: passwordHashed,
-    });
+      id:1,
+      password:passwordHashed
+    })
   }
 
-  async getAllUsers(): Promise<UserEntity[]> {
-    return this.userRepository.find();
+  findAllUsers() {
+    return `This action returns all user`;
   }
 
-  async getOneUser({id:id}): Promise<UserEntity[]> {
-    return this.userRepository.find(id);
+  findOneUser(id: number) {
+    return `This action returns a #${id} user`;
+  }
+
+  updateUser(id: number, updateUserDto: UpdateUserDto) {
+    return `This action updates a #${id} user`;
+  }
+
+  removeUser(id: number) {
+    return `This action removes a #${id} user`;
   }
 }

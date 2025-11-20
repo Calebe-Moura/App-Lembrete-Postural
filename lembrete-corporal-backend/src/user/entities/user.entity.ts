@@ -6,40 +6,44 @@ import {
     Index, 
     PrimaryGeneratedColumn 
 } from "typeorm";
-
-import {UserType} from '../enums/user.enum'
+import { IsEmail, IsNotEmpty, IsEnum, IsBoolean } from "class-validator"; 
+import { UserType } from '../enums/user.enum'
 
 @Entity({
     name: 'user'
 })
-export class UserEntity{
+export class UserEntity {
     @PrimaryGeneratedColumn('rowid')
     id: number;
 
     @Column({
-        name:'name',
-        nullable:false})
+        name: 'name',
+        nullable: false
+    })
+    @IsNotEmpty()
     name: string;
 
-    @IsEmail()
     @Column({
-        name:'email',
-        nullable:false,
+        name: 'email',
+        nullable: false,
         unique: true 
     })
+    @IsEmail() 
     email: string;
 
     @Column({
-        name:'cpf',
-        nullable:false})
+        name: 'cpf',
+        nullable: false
+    })
+    @IsNotEmpty()
     @Index({ 
         unique: true 
     })
     cpf: string;
 
     @Column({
-        name:'crefito',
-        nullable:true,
+        name: 'crefito',
+        nullable: true,
     })
     @Index({ 
         unique: true 
@@ -48,33 +52,37 @@ export class UserEntity{
 
     @Column({
         name: 'isFisioterapeuta', 
-        nullable:false,
+        nullable: false,
         default: false
     })
+    @IsBoolean()
     isFisioterapeuta: boolean;
 
     @Column({
-        name:'password',
-        nullable:false})
+        name: 'password',
+        nullable: false
+    })
+    @IsNotEmpty()
     password: string;
 
     @Column({
-        name:'type_user',
-        nullable:false,
+        name: 'type_user',
+        nullable: false,
         enum: UserType,
         default: UserType.USER
     })
+    @IsEnum(UserType)
     typeUser: number;
     
     @Column({
         name: 'created_at',
-        nullable:false 
+        nullable: false 
     })
     createdAt: Date;
     
     @Column({
         name: 'updated_at',
-        nullable:true
+        nullable: true
     })
     updatedAt: Date;
 
@@ -88,8 +96,4 @@ export class UserEntity{
     setUpdatedAt() {
         this.updatedAt = new Date();
     }
-}
-
-function IsEmail(): (target: UserEntity, propertyKey: "email") => void {
-    throw new Error("Function not implemented.");
 }
