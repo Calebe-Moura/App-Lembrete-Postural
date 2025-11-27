@@ -12,7 +12,6 @@ export class UserService {
 
     return ({
       ...createUserDto,
-      id:1,
       password:passwordHashed
     })
   }

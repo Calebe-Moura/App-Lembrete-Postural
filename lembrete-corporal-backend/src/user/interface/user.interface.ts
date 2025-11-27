@@ -6,7 +6,6 @@ export interface User{
     email:string;
     cpf:string;
     crefito:string;
-    isFisioterapeuta: boolean;
     password:string;
     type_user: UserType;
     created_at:string;

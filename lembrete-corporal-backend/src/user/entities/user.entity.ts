@@ -51,14 +51,6 @@ export class UserEntity {
     crefito: string;
 
     @Column({
-        name: 'isFisioterapeuta', 
-        nullable: false,
-        default: false
-    })
-    @IsBoolean()
-    isFisioterapeuta: boolean;
-
-    @Column({
         name: 'password',
         nullable: false
     })

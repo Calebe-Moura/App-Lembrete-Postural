@@ -1,12 +1,12 @@
 import { UserType } from "../enums/user.enum";
 
 export class CreateUserDto {
+  id:number;
   name:string;
   email:string;
   cpf:string;
   crefito:string;
   phone: string;
-  isFisioterapeuta: boolean;
   password:string;
   type_user: UserType;
   created_at:string;

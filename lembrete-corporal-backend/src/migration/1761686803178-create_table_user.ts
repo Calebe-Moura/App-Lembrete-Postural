@@ -10,7 +10,6 @@ export class CreateTableUser1675388649812 implements MigrationInterface {
         cpf character varying NOT NULL,
         crefito character varying,
         phone character varying NOT NULL,
-        isFisioterapeuta boolean NOT NULL,
         password character varying NOT NULL,
         type_user integer NOT NULL,
         created_at timestamp without time zone DEFAULT now() NOT NULL,
